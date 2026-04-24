@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Envelope Entry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>New Envelope Entry</h1>
+        <p class="subtitle">Register a new incoming envelope</p>
+
+        <form method="POST" class="form-card" id="entry-form">
+            <div class="form-group">
+                <label for="barcode">Incoming Tracking Barcode</label>
+                <input type="text" id="barcode" name="barcode" autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="outgoing_barcode">Outgoing Tracking Barcode</label>
+                <input type="text" id="outgoing_barcode" name="outgoing_barcode">
+            </div>
+
+            <div class="form-group">
+                <label for="client_name">Client Name</label>
+                <input type="text" id="client_name" name="client_name">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address">
+            </div>
+
+            <div class="form-group">
+                <label for="service_type">Service Type</label>
+                <select id="service_type" name="service_type" onchange="toggleServiceSections()">
+                    <option value="">Select service</option>
+                    <option value="Passport">Passport</option>
+                    <option value="Notarial">Notarial</option>
+                    <option value="Visa">Visa</option>
+                    <option value="Administration">Administration</option>
+                    <option value="Assistance">Assistance</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden-section" id="notarial-section">
+                <label>Notarial Requested Service</label>
+
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="requested_service" value="Ant. Criminais"> Ant. Criminais</label>
+                    <label><input type="checkbox" name="requested_service" value="CPF"> CPF</label>
+                    <label><input type="checkbox" name="requested_service" value="Aut. de Viagem Menor"> Aut. de Viagem Menor</label>
+                    <label><input type="checkbox" name="requested_service" value="Declaracao"> Declaracao</label>
+                    <label><input type="checkbox" name="requested_service" value="Atestado de Residencia"> Atestado de Residencia</label>
+                    <label><input type="checkbox" name="requested_service" value="Cupons Internacionais"> Cupons Internacionais</label>
+                    <label><input type="checkbox" name="requested_service" value="2a Via Escritura Publica"> 2a Via Escritura Publica</label>
+                    <label><input type="checkbox" name="requested_service" value="2a Via Procuracao"> 2a Via Procuracao</label>
+                    <label><input type="checkbox" name="requested_service" value="2a Via de Casamento"> 2a Via de Casamento</label>
+                    <label><input type="checkbox" name="requested_service" value="2a Via de Nascimento"> 2a Via de Nascimento</label>
+                    <label><input type="checkbox" name="requested_service" value="2a Via de Obito"> 2a Via de Obito</label>
+                    <label><input type="checkbox" name="requested_service" value="Copia(as) Autenticada(s)"> Copia(as) Autenticada(s)</label>
+                    <label><input type="checkbox" name="requested_service" value="Reconhecimento de Firma"> Reconhecimento de Firma</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Documents Received</label>
+
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="documents" value="Passaporte Recebido"> Passaporte Recebido</label>
+                    <input type="text" id="received_passport_barcode" name="received_passport_barcode" placeholder="Received passport barcode">
+
+                    <label><input type="checkbox" name="documents" value="Pagamento"> Pagamento</label>
+                    <input type="text" name="payment_amount" placeholder="Payment amount">
+
+                    <label><input type="checkbox" name="documents" value="Special Delivery"> Special Delivery</label>
+                    <label><input type="checkbox" name="documents" value="Cart. Identidade"> Cart. Identidade</label>
+                    <label><input type="checkbox" name="documents" value="ID Profissional"> ID Profissional</label>
+                    <label><input type="checkbox" name="documents" value="CNH"> CNH</label>
+                    <label><input type="checkbox" name="documents" value="CTPS"> CTPS</label>
+                    <label><input type="checkbox" name="documents" value="Cert. Casamento"> Cert. Casamento</label>
+                    <label><input type="checkbox" name="documents" value="Cert. Nascimento"> Cert. Nascimento</label>
+                    <label><input type="checkbox" name="documents" value="CPF"> CPF</label>
+                    <label><input type="checkbox" name="documents" value="Cert. Militar"> Cert. Militar</label>
+                    <label><input type="checkbox" name="documents" value="Titulo Eleitoral"> Titulo Eleitoral</label>
+                    <label><input type="checkbox" name="documents" value="Quitacao Eleitoral"> Quitacao Eleitoral</label>
+                    <label><input type="checkbox" name="documents" value="Foto"> Foto</label>
+                    <label><input type="checkbox" name="documents" value="Aut. Pass./Viagem"> Aut. Pass./Viagem</label>
+                    <label><input type="checkbox" name="documents" value="Form. Perda/Extravio"> Form. Perda/Extravio</label>
+
+                    <label><input type="checkbox" name="documents" value="D. Estrangeiro"> D. Estrangeiro</label>
+                    <input type="text" name="foreign_document" placeholder="Foreign document details">
+
+                    <label><input type="checkbox" name="documents" value="Outros"> Outros</label>
+                    <input type="text" name="other_document" placeholder="Other document details">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="application_barcode">Application Barcode</label>
+                <input type="text" id="application_barcode" name="application_barcode">
+            </div>
+
+            <div class="form-group">
+                <label for="passport_barcode">New Passport Barcode</label>
+                <input type="text" id="passport_barcode" name="passport_barcode">
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes / Observations</label>
+                <textarea id="notes" name="notes" rows="4"></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="submit">Save Entry</button>
+                <a href="/" class="btn-secondary">Back</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleServiceSections() {
+            const serviceType = document.getElementById("service_type").value;
+            const notarialSection = document.getElementById("notarial-section");
+
+            if (serviceType === "Notarial") {
+                notarialSection.style.display = "block";
+            } else {
+                notarialSection.style.display = "none";
+                const checkboxes = notarialSection.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => cb.checked = false);
+            }
+        }
+
+        function moveFocusOnScannerEnter(currentFieldId, nextFieldId) {
+            const currentField = document.getElementById(currentFieldId);
+            const nextField = document.getElementById(nextFieldId);
+
+            if (!currentField) return;
+
+            currentField.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    if (nextField) {
+                        nextField.focus();
+                    }
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            toggleServiceSections();
+
+            const form = document.getElementById("entry-form");
+
+            moveFocusOnScannerEnter("barcode", "outgoing_barcode");
+            moveFocusOnScannerEnter("outgoing_barcode", "client_name");
+            moveFocusOnScannerEnter("received_passport_barcode", "application_barcode");
+            moveFocusOnScannerEnter("application_barcode", "passport_barcode");
+            moveFocusOnScannerEnter("passport_barcode", "notes");
+
+            form.addEventListener("keydown", function (event) {
+                const scannerFields = [
+                    "barcode",
+                    "outgoing_barcode",
+                    "received_passport_barcode",
+                    "application_barcode",
+                    "passport_barcode"
+                ];
+
+                if (event.key === "Enter" && scannerFields.includes(event.target.id)) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

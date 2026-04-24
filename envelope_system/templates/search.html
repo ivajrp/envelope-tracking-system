@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Envelope</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Search Envelope</h1>
+        <p class="subtitle">Search by text and filter by entry or dispatch date</p>
+
+        <form method="POST" class="form-card">
+            <div class="form-group">
+                <label for="search_term">Search</label>
+                <input type="text" id="search_term" name="search_term" placeholder="Barcode, name, service, notes...">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="entry_date">Entry Date</label>
+                    <input type="date" id="entry_date" name="entry_date">
+                </div>
+
+                <div class="form-group">
+                    <label for="dispatch_date">Dispatch Date</label>
+                    <input type="date" id="dispatch_date" name="dispatch_date">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit">Search</button>
+                <a href="/" class="btn-secondary">Back</a>
+            </div>
+        </form>
+
+        {% if results %}
+            <div class="form-card" style="margin-top: 20px;">
+                <h2>Results</h2>
+                <table class="results-table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Incoming Barcode</th>
+                        <th>Outgoing Barcode</th>
+                        <th>Client Name</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Entry Date</th>
+                        <th>Dispatch Date</th>
+                    </tr>
+                    {% for row in results %}
+                    <tr>
+                        <td>{{ row["id"] }}</td>
+                        <td>{{ row["barcode"] }}</td>
+                        <td>{{ row["outgoing_barcode"] }}</td>
+                        <td>
+                            <a href="{{ url_for('envelope_details', envelope_id=row['id']) }}">
+                                {{ row["client_name"] }}
+                            </a>
+                        </td>
+                        <td>{{ row["service_type"] }}</td>
+                        <td>{{ row["status"] }}</td>
+                        <td>{{ row["entry_date"] }}</td>
+                        <td>{{ row["dispatch_date"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dispatch Envelope</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Dispatch Envelope</h1>
+        <p class="subtitle">Search by outgoing tracking barcode or client name</p>
+
+        <form method="POST" class="form-card">
+            <input type="hidden" name="action" value="search">
+
+            <div class="form-group">
+                <label for="search_term">Search</label>
+                <input type="text" id="search_term" name="search_term" placeholder="Outgoing barcode or client name" required>
+            </div>
+
+            <div class="button-group">
+                <button type="submit">Search</button>
+                <a href="/" class="btn-secondary">Back</a>
+            </div>
+        </form>
+
+        {% if message %}
+            <div class="form-card">
+                <p><strong>{{ message }}</strong></p>
+            </div>
+        {% endif %}
+
+        {% if results %}
+            <div class="form-card" style="margin-top: 20px;">
+                <h2>Search Results</h2>
+                <table class="results-table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Client Name</th>
+                        <th>Outgoing Barcode</th>
+                        <th>Status</th>
+                        <th>Entry Date</th>
+                        <th>Dispatch Date</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for row in results %}
+                    <tr>
+                        <td>{{ row["id"] }}</td>
+                        <td>{{ row["client_name"] }}</td>
+                        <td>{{ row["outgoing_barcode"] }}</td>
+                        <td>{{ row["status"] }}</td>
+                        <td>{{ row["entry_date"] }}</td>
+                        <td>{{ row["dispatch_date"] }}</td>
+                        <td>
+                            {% if row["status"] != "Dispatched" %}
+                            <form method="POST">
+                                <input type="hidden" name="action" value="dispatch">
+                                <input type="hidden" name="envelope_id" value="{{ row['id'] }}">
+                                <button type="submit">Dispatch</button>
+                            </form>
+                            {% else %}
+                                Already dispatched
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

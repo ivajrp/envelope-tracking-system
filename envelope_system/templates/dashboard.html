@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" class="logo" alt="Consulado-Geral do Brasil em Londres">
+    </div>
+
+    <div class="container">
+        <h1>Envelope Tracking System</h1>
+        <p class="welcome">Welcome, {{ username }}</p>
+
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>Total Envelopes</h3>
+                <p>{{ total_envelopes }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Received</h3>
+                <p>{{ total_received }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Dispatched</h3>
+                <p>{{ total_dispatched }}</p>
+            </div>
+        </div>
+
+        <div class="menu">
+            {% if role == "admin" %}
+                <a href="/new_entry" class="menu-btn">New Entry</a>
+                <a href="/dispatch" class="menu-btn">Dispatch</a>
+            {% endif %}
+
+            <a href="/search" class="menu-btn">Search</a>
+            <a href="/logout" class="menu-btn logout">Logout</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Consulado-Geral do Brasil em Londres</p>
+        <p>Developed by Ivanete Rossetto</p>
+    </footer>
+
+</body>
+</html>

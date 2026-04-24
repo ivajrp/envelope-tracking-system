@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Envelope Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Envelope Details</h1>
+        <p class="subtitle">Full registered information, including entry and dispatch data</p>
+
+        <div class="form-card">
+            {% if envelope %}
+                <h2>General Information</h2>
+                <p><strong>ID:</strong> {{ envelope["id"] }}</p>
+                <p><strong>Status:</strong> {{ envelope["status"] }}</p>
+                <p><strong>Entry Date:</strong> {{ envelope["entry_date"] }}</p>
+                <p><strong>Dispatch Date:</strong> {{ envelope["dispatch_date"] }}</p>
+
+                <h2>Tracking</h2>
+                <p><strong>Incoming Tracking Barcode:</strong> {{ envelope["barcode"] }}</p>
+                <p><strong>Outgoing Tracking Barcode:</strong> {{ envelope["outgoing_barcode"] }}</p>
+
+                <h2>Client Information</h2>
+                <p><strong>Client Name:</strong> {{ envelope["client_name"] }}</p>
+                <p><strong>Address:</strong> {{ envelope["address"] }}</p>
+                <p><strong>Service Type:</strong> {{ envelope["service_type"] }}</p>
+
+                <h2>Documents Received at Entry</h2>
+                <p>{{ envelope["documents"] }}</p>
+
+                <h2>Application / Passport Data</h2>
+                <p><strong>Application Barcode:</strong> {{ envelope["application_barcode"] }}</p>
+                <p><strong>Passport Barcode:</strong> {{ envelope["passport_barcode"] }}</p>
+
+                <h2>Notes</h2>
+                <p>{{ envelope["notes"] }}</p>
+
+                <div class="button-group">
+                    <a href="/search" class="btn-secondary">Back to Search</a>
+                    <a href="/dispatch" class="btn-secondary">Back to Dispatch</a>
+
+                    {% if session.get("role") == "admin" %}
+                    <form method="POST"
+                          action="{{ url_for('delete_envelope', envelope_id=envelope['id']) }}"
+                          onsubmit="return confirm('Are you sure you want to delete this envelope record?');"
+                          style="display:inline;">
+                        <button type="submit" class="delete-button">Delete Record</button>
+                    </form>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>Envelope not found.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
